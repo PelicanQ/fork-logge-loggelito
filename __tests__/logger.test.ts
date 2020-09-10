@@ -137,3 +137,20 @@ describe('Levels', () => {
     })
   })
 })
+
+describe('message', () => {
+  const logger = new Logger({ level: 'INFO' })
+  it('should log the logging when info is called', async () => {
+    logger.info({ entries: { message: 'nice' } })
+    expect(consoleSpy).toBeCalledWith(JSON.stringify({ severity: 'INFO', message: 'nice' }))
+  })
+  it('should log error when error is called', async () => {
+    const error = new Error('error')
+    logger.error({ error: error, entries: { message: 'nice' } })
+    const stack = JSON.parse(consoleSpy.mock.calls[0][0]).stack as string
+    expect(stack).toBeTruthy()
+    expect(consoleSpy).toBeCalledWith(
+      JSON.stringify({ severity: 'ERROR', stack, error_message: 'error', message: 'nice' }),
+    )
+  })
+})
