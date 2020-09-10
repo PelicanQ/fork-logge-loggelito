@@ -11,6 +11,26 @@ afterEach(() => {
 
 describe('Levels', () => {
   describe('when initialized with string', () => {
+    describe('when level is OFF', () => {
+      const logger = new Logger({ level: 'OFF' })
+      it('should not log on error level', async () => {
+        const error = new Error()
+        logger.error({ error: error, entries: { message: 'nice' } })
+        expect(consoleSpy).not.toBeCalled()
+      })
+      it('should not log on NOTICE level', async () => {
+        logger.notice({ entries: { message: 'nice' } })
+        expect(consoleSpy).not.toBeCalled()
+      })
+      it('should not log on INFO level', async () => {
+        logger.info({ entries: { message: 'nice' } })
+        expect(consoleSpy).not.toBeCalled()
+      })
+      it('should not log on DEBUG level', async () => {
+        logger.debug({ entries: { message: 'nice' } })
+        expect(consoleSpy).not.toBeCalled()
+      })
+    })
     describe('when level is ERROR', () => {
       const logger = new Logger({ level: 'ERROR' })
       it('should log on error level', async () => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-type Level = 'ERROR' | 'NOTICE' | 'INFO' | 'DEBUG'
-const levels: Record<Level, number> = { ERROR: 1, NOTICE: 2, INFO: 3, DEBUG: 4 }
+type Level = 'OFF' | 'ERROR' | 'NOTICE' | 'INFO' | 'DEBUG'
+const levels: Record<Level, number> = { OFF: 0, ERROR: 1, NOTICE: 2, INFO: 3, DEBUG: 4 }
 
 interface Request {
   header(name: string): string
@@ -31,7 +31,7 @@ export class Logger {
   }) {
     if (typeof args.level === 'string') {
       const level = levels[args.level]
-      if (!level) {
+      if (level == null) {
         throw new Error(
           `invalid level: "${args.level}" given. Only ${Object.keys(levels).toString()} is valid`,
         )
@@ -80,6 +80,7 @@ export class Logger {
     const log: Record<string, any> = {
       severity: args.level,
       ...args.entries,
+      ...this.additionalEntries,
     }
     addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
