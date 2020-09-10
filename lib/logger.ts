@@ -44,7 +44,7 @@ export class Logger {
     this.request = args.request
   }
 
-  public error(args: { error?: Error; entries?: any }): void {
+  public error(args: { error?: Error; entries?: Record<string, any> }): void {
     const entries: Record<string, any> = {
       stack: args?.error?.stack,
       error_message: args?.error?.message,
@@ -53,16 +53,16 @@ export class Logger {
     this.log({ level: 'ERROR', entries })
   }
 
-  public notice(args: { entries: any }): void {
-    this.log({ level: 'NOTICE', entries: args.entries })
+  public notice(entries: Record<string, any>): void {
+    this.log({ level: 'NOTICE', entries: entries })
   }
 
-  public info(args: { entries: any }): void {
-    this.log({ level: 'INFO', entries: args.entries })
+  public info(entries: Record<string, any>): void {
+    this.log({ level: 'INFO', entries: entries })
   }
 
-  public debug(args: { entries: any }): void {
-    this.log({ level: 'DEBUG', entries: args.entries })
+  public debug(entries: Record<string, any>): void {
+    this.log({ level: 'DEBUG', entries: entries })
   }
 
   public child(additionalEntries: Record<string, any>): Logger {
