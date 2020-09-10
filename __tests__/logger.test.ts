@@ -173,4 +173,43 @@ describe('message', () => {
       JSON.stringify({ severity: 'ERROR', stack, error_message: 'error', message: 'nice' }),
     )
   })
+
+  describe('when using child', () => {
+    describe('when several layers of children are created', () => {
+      const child1 = logger.child({ child1_message: 'hello from 1' })
+      const child2 = child1.child({ child2_message: 'hello from 2' })
+      const child3 = child2.child({ child3_message: 'hello from 3' })
+      it('should not use the same ref', async () => {
+        expect(logger).not.toBe(child1)
+        expect(child1).not.toBe(child2)
+        expect(child2).not.toBe(child3)
+      })
+      it('should log the messages and include the messages from their parents', async () => {
+        logger.info({ message: 'hehe' })
+        child1.info({ message: 'cool' })
+        child2.info({ message: 'cool' })
+        child3.info({ message: 'cool' })
+        const expectedLogs = [
+          JSON.stringify({ severity: 'INFO', message: 'cool', child1_message: 'hello from 1' }),
+          JSON.stringify({
+            severity: 'INFO',
+            message: 'cool',
+            child1_message: 'hello from 1',
+            child2_message: 'hello from 2',
+          }),
+          JSON.stringify({
+            severity: 'INFO',
+            message: 'cool',
+            child1_message: 'hello from 1',
+            child2_message: 'hello from 2',
+            child3_message: 'hello from 3',
+          }),
+        ]
+        expect(consoleSpy).toBeCalledWith(JSON.stringify({ severity: 'INFO', message: 'hehe' }))
+        expect(consoleSpy).toBeCalledWith(expectedLogs[0])
+        expect(consoleSpy).toBeCalledWith(expectedLogs[1])
+        expect(consoleSpy).toBeCalledWith(expectedLogs[2])
+      })
+    })
+  })
 })
