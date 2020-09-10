@@ -10,11 +10,14 @@ const shouldLog = (levelCalled: number, levelInitilized: number): boolean => {
   return levelCalled <= levelInitilized
 }
 
-const addRequestTrace = (args: { request?: Request; log: Record<string, any> }): void => {
-  if (args.request) {
-    const trace = (args.request.header('X-Cloud-Trace-Context') || '').split('/')
+const addRequestTrace = (
+  request: Request,
+  gcpProject: string,
+): { 'logging.googleapis.com/trace': string } | undefined => {
+  if (request) {
+    const trace = (request.header('X-Cloud-Trace-Context') || '').split('/')
     if (trace) {
-      args.log['logging.googleapis.com/trace'] = `projects/hallonpaj/traces/${trace}`
+      return { 'logging.googleapis.com/trace': `projects/${gcpProject}/traces/${trace}` }
     }
   }
 }
@@ -22,12 +25,14 @@ const addRequestTrace = (args: { request?: Request; log: Record<string, any> }):
 export class Logger {
   private level: number
   private additionalEntries?: Record<string, any>
-  private request?: Request
 
   constructor(args: {
     level: Level | number
-    request?: Request
-    additionalLogEntries?: Record<string, any>
+    traceOptions?: {
+      request: Request
+      gcpProject: string
+    }
+    additionalEntries?: Record<string, any>
   }) {
     if (typeof args.level === 'string') {
       const level = levels[args.level]
@@ -40,8 +45,14 @@ export class Logger {
     } else {
       this.level = args.level
     }
-    this.additionalEntries = args.additionalLogEntries
-    this.request = args.request
+    let additionalEntries: Record<string, any> | undefined
+    if (args.traceOptions) {
+      const traceEntry = addRequestTrace(args.traceOptions.request, args.traceOptions.gcpProject)
+      additionalEntries = { ...args.additionalEntries, ...traceEntry }
+    } else {
+      additionalEntries = args.additionalEntries
+    }
+    this.additionalEntries = additionalEntries
   }
 
   public error(args: { error?: Error; entries?: Record<string, any> }): void {
@@ -68,8 +79,7 @@ export class Logger {
   public child(additionalEntries: Record<string, any>): Logger {
     return new Logger({
       level: this.level,
-      additionalLogEntries: { ...this.additionalEntries, ...additionalEntries },
-      request: this.request,
+      additionalEntries: { ...this.additionalEntries, ...additionalEntries },
     })
   }
 
@@ -82,7 +92,6 @@ export class Logger {
       ...args.entries,
       ...this.additionalEntries,
     }
-    addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
   }
 }

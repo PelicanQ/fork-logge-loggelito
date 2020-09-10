@@ -213,3 +213,52 @@ describe('message', () => {
     })
   })
 })
+
+describe('trace', () => {
+  const logger = new Logger({
+    level: 'INFO',
+    traceOptions: { gcpProject: 'hehe123', request: { header: () => '1234' } },
+  })
+  const child1 = logger.child({ child1_message: 'hello from 1' })
+  const child2 = child1.child({ child2_message: 'hello from 2' })
+  const child3 = child2.child({ child3_message: 'hello from 3' })
+  it('should persist the trace over children', async () => {
+    logger.info({ message: 'cool' })
+    child1.info({ message: 'cool' })
+    child2.info({ message: 'cool' })
+    child3.info({ message: 'cool' })
+    const expectedLogs = [
+      JSON.stringify({
+        severity: 'INFO',
+        message: 'cool',
+        'logging.googleapis.com/trace': 'projects/hehe123/traces/1234',
+        child1_message: 'hello from 1',
+      }),
+      JSON.stringify({
+        severity: 'INFO',
+        message: 'cool',
+        'logging.googleapis.com/trace': 'projects/hehe123/traces/1234',
+        child1_message: 'hello from 1',
+        child2_message: 'hello from 2',
+      }),
+      JSON.stringify({
+        severity: 'INFO',
+        message: 'cool',
+        'logging.googleapis.com/trace': 'projects/hehe123/traces/1234',
+        child1_message: 'hello from 1',
+        child2_message: 'hello from 2',
+        child3_message: 'hello from 3',
+      }),
+    ]
+    expect(consoleSpy).toBeCalledWith(
+      JSON.stringify({
+        severity: 'INFO',
+        message: 'cool',
+        'logging.googleapis.com/trace': 'projects/hehe123/traces/1234',
+      }),
+    )
+    expect(consoleSpy).toBeCalledWith(expectedLogs[0])
+    expect(consoleSpy).toBeCalledWith(expectedLogs[1])
+    expect(consoleSpy).toBeCalledWith(expectedLogs[2])
+  })
+})
