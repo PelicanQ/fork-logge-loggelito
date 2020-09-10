@@ -21,13 +21,14 @@ const addRequestTrace = (args: { request?: Request; log: Record<string, any> }):
 
 export class Logger {
   private level: number
-  constructor(
-    readonly args: {
-      level: Level | number
-      request?: Request
-      additionalLogEntries?: Record<string, any>
-    },
-  ) {
+  private additionalEntries?: Record<string, any>
+  private request?: Request
+
+  constructor(args: {
+    level: Level | number
+    request?: Request
+    additionalLogEntries?: Record<string, any>
+  }) {
     if (typeof args.level === 'string') {
       const level = levels[args.level]
       if (!level) {
@@ -39,6 +40,8 @@ export class Logger {
     } else {
       this.level = args.level
     }
+    this.additionalEntries = args.additionalLogEntries
+    this.request = args.request
   }
 
   public error(args: { error?: Error; entry?: any }): void {
@@ -51,7 +54,7 @@ export class Logger {
       error_message: args?.error?.message,
       ...args.entry,
     }
-    addRequestTrace({ request: this.args.request, log })
+    addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
   }
 
@@ -63,7 +66,7 @@ export class Logger {
       severity: 'NOTICE',
       ...args.entry,
     }
-    addRequestTrace({ request: this.args.request, log })
+    addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
   }
 
@@ -75,7 +78,7 @@ export class Logger {
       severity: 'INFO',
       ...args.entry,
     }
-    addRequestTrace({ request: this.args.request, log })
+    addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
   }
 
@@ -87,7 +90,15 @@ export class Logger {
       severity: 'DEBUG',
       ...args.entry,
     }
-    addRequestTrace({ request: this.args.request, log })
+    addRequestTrace({ request: this.request, log })
     console.log(JSON.stringify(log))
+  }
+
+  public child(additionalEntries: Record<string, any>): Logger {
+    return new Logger({
+      level: this.level,
+      additionalLogEntries: { ...this.additionalEntries, ...additionalEntries },
+      request: this.request,
+    })
   }
 }
