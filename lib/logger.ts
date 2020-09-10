@@ -44,54 +44,25 @@ export class Logger {
     this.request = args.request
   }
 
-  public error(args: { error?: Error; entry?: any }): void {
-    if (!shouldLog(levels['ERROR'], this.level)) {
-      return
-    }
-    const log: Record<string, any> = {
-      severity: 'ERROR',
+  public error(args: { error?: Error; entries?: any }): void {
+    const entries: Record<string, any> = {
       stack: args?.error?.stack,
       error_message: args?.error?.message,
-      ...args.entry,
+      ...args.entries,
     }
-    addRequestTrace({ request: this.request, log })
-    console.log(JSON.stringify(log))
+    this.log({ level: 'ERROR', entries })
   }
 
-  public notice(args: { entry: any }): void {
-    if (!shouldLog(levels['NOTICE'], this.level)) {
-      return
-    }
-    const log: Record<string, any> = {
-      severity: 'NOTICE',
-      ...args.entry,
-    }
-    addRequestTrace({ request: this.request, log })
-    console.log(JSON.stringify(log))
+  public notice(args: { entries: any }): void {
+    this.log({ level: 'NOTICE', entries: args.entries })
   }
 
-  public info(args: { entry: any }): void {
-    if (!shouldLog(levels['INFO'], this.level)) {
-      return
-    }
-    const log: Record<string, any> = {
-      severity: 'INFO',
-      ...args.entry,
-    }
-    addRequestTrace({ request: this.request, log })
-    console.log(JSON.stringify(log))
+  public info(args: { entries: any }): void {
+    this.log({ level: 'INFO', entries: args.entries })
   }
 
-  public debug(args: { entry: any }): void {
-    if (!shouldLog(levels['DEBUG'], this.level)) {
-      return
-    }
-    const log: Record<string, any> = {
-      severity: 'DEBUG',
-      ...args.entry,
-    }
-    addRequestTrace({ request: this.request, log })
-    console.log(JSON.stringify(log))
+  public debug(args: { entries: any }): void {
+    this.log({ level: 'DEBUG', entries: args.entries })
   }
 
   public child(additionalEntries: Record<string, any>): Logger {
@@ -100,5 +71,17 @@ export class Logger {
       additionalLogEntries: { ...this.additionalEntries, ...additionalEntries },
       request: this.request,
     })
+  }
+
+  private log(args: { entries: Record<string, any>; level: Level }): void {
+    if (!shouldLog(levels[args.level], this.level)) {
+      return
+    }
+    const log: Record<string, any> = {
+      severity: args.level,
+      ...args.entries,
+    }
+    addRequestTrace({ request: this.request, log })
+    console.log(JSON.stringify(log))
   }
 }

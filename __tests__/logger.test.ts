@@ -15,19 +15,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 'ERROR' })
       it('should log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
     })
@@ -35,19 +35,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 'NOTICE' })
       it('should log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
     })
@@ -55,19 +55,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 'INFO' })
       it('should log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
     })
@@ -75,19 +75,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 'DEBUG' })
       it('should log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
     })
@@ -98,19 +98,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 2 })
       it('should log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
     })
@@ -119,19 +119,19 @@ describe('Levels', () => {
       const logger = new Logger({ level: 0 })
       it('should not log on error level', async () => {
         const error = new Error()
-        logger.error({ error: error, entry: { message: 'nice' } })
+        logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on NOTICE level', async () => {
-        logger.notice({ entry: { message: 'nice' } })
+        logger.notice({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on INFO level', async () => {
-        logger.info({ entry: { message: 'nice' } })
+        logger.info({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on DEBUG level', async () => {
-        logger.debug({ entry: { message: 'nice' } })
+        logger.debug({ entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
     })
