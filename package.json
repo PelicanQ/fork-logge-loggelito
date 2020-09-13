@@ -1,6 +1,6 @@
 {
   "name": "logge-loggelito",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Simple logger for gcp cloud run",
   "author": "Anton Hägermalm",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "types": "build/lib/logger.d.ts",
   "scripts": {
     "build": "tsc",
+    "prepublish": "yarn build",
     "test": "jest"
   },
   "devDependencies": {
