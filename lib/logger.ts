@@ -3,7 +3,7 @@ type Level = 'OFF' | 'ERROR' | 'NOTICE' | 'INFO' | 'DEBUG'
 const levels: Record<Level, number> = { OFF: 0, ERROR: 1, NOTICE: 2, INFO: 3, DEBUG: 4 }
 
 interface Request {
-  header(name: string): string
+  header(name: string): string | undefined
 }
 
 const shouldLog = (levelCalled: number, levelInitilized: number): boolean => {
