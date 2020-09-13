@@ -1,11 +1,11 @@
 {
   "name": "logge-loggelito",
-  "version": "0.1",
-  "description": "simple logger for nodeJS on gcp cloud run",
-  "main": "build/index.js",
+  "version": "0.1.1",
+  "description": "Simple logger for gcp cloud run",
   "author": "Anton Hägermalm",
   "license": "MIT",
-  "types": "build/logger.d.ts",
+  "main": "build/lib/logger.js",
+  "types": "build/lib/logger.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
