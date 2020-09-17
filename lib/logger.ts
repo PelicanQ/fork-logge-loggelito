@@ -15,7 +15,7 @@ const addRequestTrace = (
   gcpProject: string,
 ): { 'logging.googleapis.com/trace': string } | undefined => {
   if (request) {
-    const trace = (request.header('X-Cloud-Trace-Context') || '').split('/')
+    const trace = (request.header('X-Cloud-Trace-Context') || '').split('/')[0]
     if (trace) {
       return { 'logging.googleapis.com/trace': `projects/${gcpProject}/traces/${trace}` }
     }
