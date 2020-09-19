@@ -18,8 +18,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
-      it('should not log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should not log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on INFO level', async () => {
@@ -38,8 +38,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
-      it('should not log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should not log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on INFO level', async () => {
@@ -51,15 +51,15 @@ describe('Levels', () => {
         expect(consoleSpy).not.toBeCalled()
       })
     })
-    describe('when level is NOTICE', () => {
-      const logger = new Logger({ level: 'NOTICE' })
+    describe('when level is WARNING', () => {
+      const logger = new Logger({ level: 'WARNING' })
       it('should log on error level', async () => {
         const error = new Error()
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
-      it('should log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on INFO level', async () => {
@@ -78,8 +78,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
-      it('should log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on INFO level', async () => {
@@ -98,8 +98,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
-      it('should log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should log on INFO level', async () => {
@@ -121,8 +121,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).toBeCalledTimes(1)
       })
-      it('should log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).toBeCalledTimes(1)
       })
       it('should not log on INFO level', async () => {
@@ -142,8 +142,8 @@ describe('Levels', () => {
         logger.error({ error: error, entries: { message: 'nice' } })
         expect(consoleSpy).not.toBeCalled()
       })
-      it('should not log on NOTICE level', async () => {
-        logger.notice({ message: 'nice' })
+      it('should not log on WARNING level', async () => {
+        logger.warning({ message: 'nice' })
         expect(consoleSpy).not.toBeCalled()
       })
       it('should not log on INFO level', async () => {

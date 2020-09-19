@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-type Level = 'OFF' | 'ERROR' | 'NOTICE' | 'INFO' | 'DEBUG'
-const levels: Record<Level, number> = { OFF: 0, ERROR: 1, NOTICE: 2, INFO: 3, DEBUG: 4 }
+type Level = 'OFF' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG'
+const levels: Record<Level, number> = { OFF: 0, ERROR: 1, WARNING: 2, INFO: 3, DEBUG: 4 }
 
 interface Request {
   header(name: string): string | undefined
@@ -64,8 +64,8 @@ export class Logger {
     this.log({ level: 'ERROR', entries })
   }
 
-  public notice(entries: Record<string, any>): void {
-    this.log({ level: 'NOTICE', entries: entries })
+  public warning(entries: Record<string, any>): void {
+    this.log({ level: 'WARNING', entries: entries })
   }
 
   public info(entries: Record<string, any>): void {
