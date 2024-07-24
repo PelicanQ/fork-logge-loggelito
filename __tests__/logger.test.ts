@@ -262,3 +262,25 @@ describe('trace', () => {
     expect(consoleSpy).toBeCalledWith(expectedLogs[2])
   })
 })
+describe('JSON format', () => {
+  it('JSON.stringify should be called with 2 spaces', () => {
+    const logger = new Logger({
+      level: 'INFO',
+      numSpaces: 2,
+    })
+    logger.info({ field1: 1, field2: 2 })
+    expect(consoleSpy).toBeCalledWith(
+      JSON.stringify({ severity: 'INFO', field1: 1, field2: 2 }, null, 2),
+    )
+  })
+  it('JSON.stringify should be called with 4 spaces', () => {
+    const logger = new Logger({
+      level: 'INFO',
+      numSpaces: 4,
+    })
+    logger.info({ field1: 1, field2: 2 })
+    expect(consoleSpy).toBeCalledWith(
+      JSON.stringify({ severity: 'INFO', field1: 1, field2: 2 }, null, 4),
+    )
+  })
+})

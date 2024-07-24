@@ -25,9 +25,11 @@ const addRequestTrace = (
 export class Logger {
   private level: number
   private additionalEntries?: Record<string, any>
+  private numSpaces?: number
 
   constructor(args: {
     level: Level | number
+    numSpaces?: number
     traceOptions?: {
       request: Request
       gcpProject: string
@@ -53,6 +55,7 @@ export class Logger {
       additionalEntries = args.additionalEntries
     }
     this.additionalEntries = additionalEntries
+    this.numSpaces = args.numSpaces
   }
 
   public error(args: { error?: Error; entries?: Record<string, any> }): void {
@@ -92,6 +95,6 @@ export class Logger {
       ...args.entries,
       ...this.additionalEntries,
     }
-    console.log(JSON.stringify(log))
+    console.log(JSON.stringify(log, undefined, this.numSpaces))
   }
 }
